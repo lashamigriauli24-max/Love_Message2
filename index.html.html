@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 შენთვის</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            overflow: hidden;
+        }
+        
+        #message {
+            font-size: 36px;
+            color: white;
+            margin-bottom: 50px;
+            text-align: center;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            padding: 0 20px;
+            max-width: 90%;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        #heartButton {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: none;
+            font-size: 80px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            transition: all 0.3s;
+            box-shadow: 0 15px 40px rgba(238, 90, 111, 0.4);
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20%, 40% { transform: scale(1); }
+        }
+        
+        #heartButton:hover {
+            transform: scale(1.15);
+            box-shadow: 0 20px 50px rgba(238, 90, 111, 0.6);
+        }
+        
+        #heartButton:active {
+            transform: scale(0.95);
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 40px;
+            animation: floatHeart 4s ease-out forwards;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
+        }
+        
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-300px) scale(1.5) rotate(180deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-600px) scale(0.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleFall 3s ease-out forwards;
+            pointer-events: none;
+            box-shadow: 0 0 10px white;
+        }
+        
+        @keyframes sparkleFall {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(500px) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        #subtitle {
+            position: absolute;
+            bottom: 30px;
+            color: white;
+            font-size: 22px;
+            text-align: center;
+            opacity: 0.9;
+            font-style: italic;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="message">დააჭირე გულს... 💕</div>
+    <button id="heartButton">💗</button>
+    <div id="subtitle">შენთვის განსაკუთრებული შეტყობინება</div>
+    
+    <script>
+        let clickCount = 0;
+        const button = document.getElementById('heartButton');
+        const message = document.getElementById('message');
+        const subtitle = document.getElementById('subtitle');
+        
+        const heartEmojis = ['💗', '💖', '💕', '💓', '💝', '💘', '❤️', '💞'];
+        
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            heart.style.left = (x + (Math.random() - 0.5) * 100) + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 4000);
+        }
+        
+        function createSparkles(x, y) {
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = (x + (Math.random() - 0.5) * 150) + 'px';
+                sparkle.style.top = (y + (Math.random() - 0.5) * 150) + 'px';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 3000);
+            }
+        }
+        
+        button.addEventListener('click', function(e) {
+            clickCount++;
+            
+            createHeart(e.clientX, e.clientY);
+            createSparkles(e.clientX, e.clientY);
+            
+            if (clickCount === 1) {
+                message.textContent = 'მიყვარხარ ჩემო სიცოცხე';
+                message.style.fontSize = '42px';
+                button.textContent = '💝';
+                subtitle.textContent = 'კიდევ დააჭირე... 😊';
+                document.body.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ff6b6b 100%)';
+                
+                // Много сердечек!
+                for (let i = 0; i < 15; i++) {
+                    setTimeout(() => {
+                        createHeart(
+                            Math.random() * window.innerWidth,
+                            window.innerHeight
+                        );
+                    }, i * 100);
+                }
+            } else if (clickCount === 2) {
+                message.textContent = 'ყავა მომიდუღე გთხოვ ჩემო სიცოცხე';
+                message.style.fontSize = '38px';
+                button.textContent = '☕';
+                subtitle.textContent = '😄 ხო ყავისთვის იყო ეს ყველაფერი! 💕';
+                document.body.style.background = 'linear-gradient(135deg, #a8dadc 0%, #457b9d 50%, #1d3557 100%)';
+                
+                // Супер конфетти!
+                for (let i = 0; i < 30; i++) {
+                    setTimeout(() => {
+                        createSparkles(
+                            Math.random() * window.innerWidth,
+                            Math.random() * 100
+                        );
+                        createHeart(
+                            Math.random() * window.innerWidth,
+                            Math.random() * 100
+                        );
+                    }, i * 50);
+                }
+            } else if (clickCount > 2) {
+                // Можно продолжать нажимать - будут летать сердечки!
+                const randomMessages = [
+                    '💕 ჩემო სიყვარულო',
+                    '☕ ყავა გთხოვ',
+                    '😊 მადლობა რომ ხარ',
+                    '💝 შენ ხარ ყველაფერი'
+                ];
+                message.textContent = randomMessages[Math.floor(Math.random() * randomMessages.length)];
+            }
+        });
+    </script>
+</body>
+</html>
